@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+    camunda:
+      image: camunda/camunda-bpm-platform:tomcat-7.21.0
+      environment:
+          - DB_DRIVER=com.mysql.cj.jdbc.Driver
+          - DB_URL=jdbc:mysql://mysql:3306/process-engine?sendFractionalSeconds=false
+          - DB_USERNAME=camunda
+          - DB_PASSWORD=camunda
+          - WAIT_FOR=mysql:3306
+      links:
+          - mysql
+      ports:
+          - "8080:8080"
+      restart: unless-stopped
+    
+    mysql:
+        image: mysql:8.0
+        environment:
+            - MYSQL_ROOT_PASSWORD=camunda
+            - MYSQL_USER=camunda
+            - MYSQL_PASSWORD=camunda
+            - MYSQL_DATABASE=process-enginecod
